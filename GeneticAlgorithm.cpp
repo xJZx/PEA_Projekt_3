@@ -168,12 +168,11 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 
 	double averageFitness = totalFitness / populations.size();
 
-	// generowanie losowego miejsca pocz¹tkowego
-	double randStart = realNumberDraw(0.0, averageFitness);
-
 	// wygenerowanie wskaŸników do ko³a (to ko³o bêdzie mia³o 2 wskaŸniki)
 	std::vector<double> pointers;
 	for (int i = 0; i < numberOfParents; i++) {
+		// generowanie losowego miejsca pocz¹tkowego
+		double randStart = realNumberDraw(0.0, averageFitness);
 		pointers.push_back(randStart + i * averageFitness);
 	}
 
@@ -183,6 +182,7 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 	int parentIndex = 0;
 
 	for (double pointer : pointers) {
+		// suma musi byæ mniejsza od wskaŸnika, aby by³ on optymalny
 		while (currentSum < pointer) {
 			++parentIndex;
 			currentSum += populations[parentIndex].populationCost;

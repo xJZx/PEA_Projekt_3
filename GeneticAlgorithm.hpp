@@ -1,5 +1,6 @@
 #include "Tools.hpp"
 
+// struktura reprezentuj¹ca pojedyñcz¹ populacjê (œcie¿kê wraz z jej kosztem)
 struct population {
 	int populationCost;
 	std::vector<int> path;

@@ -7,11 +7,11 @@ void Menu::start()
     std::string lastFilename;
     std::string results;
     double stopTime = 60 * 1000000;
-    int startPopulationAmount = 10;
+    int startPopulationAmount = 1000;
     int mutationMethod = 1;
     // factors
     double crossoverFactor = 0.8;
-    double mutationalFactor = 0.01;
+    double mutationalFactor = 0.1;
 
     while (true) {
         int creation = 0;
