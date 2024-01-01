@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <random>
 #include "Time.hpp"
 #include "tinyxml2.hpp"
 
@@ -19,7 +20,6 @@ public:
 	std::vector<int> minPath;
 	int minCost;
 	//int minCostEnd;
-	char typeOfSolution;
 	long bestTimeStamp;
 	long time;
 

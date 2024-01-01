@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PEA_P3.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GeneticAlgorithm.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Time.hpp" />
     <ClInclude Include="tinyxml2.hpp" />

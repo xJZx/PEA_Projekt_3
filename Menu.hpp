@@ -1,6 +1,6 @@
 #pragma once
 #include "Tools.hpp"
-//#include
+#include "GeneticAlgorithm.hpp"
 
 class Menu
 {

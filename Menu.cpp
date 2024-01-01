@@ -7,9 +7,11 @@ void Menu::start()
     std::string lastFilename;
     std::string results;
     double stopTime = 60 * 1000000;
-    // temperature factor
-    double a = 0.9999;
-    int epoque = 1;
+    int startPopulationAmount = 10;
+    int mutationMethod = 1;
+    // factors
+    double crossoverFactor = 0.8;
+    double mutationalFactor = 0.01;
 
     while (true) {
         int creation = 0;
@@ -18,40 +20,21 @@ void Menu::start()
         std::cout << "1. Read from the file\n";
         std::cout << "2. Stop critera\n";
         std::cout << "3. Check results\n";
-        std::cout << "4. Tabu Search - Start\n";
-        std::cout << "5. Simulated Annealing - Criteria\n";
-        std::cout << "6. Simulated Annealing - Start\n";
+        std::cout << "4. Criteria\n";
+        std::cout << "5. Mutation method\n";
+        std::cout << "6. Genetic Algorithm - Start\n";
         std::cout << "7. Print Matrix\n";
         std::cin >> creation;
 
         switch (creation) {
         case 1:
         {
-            int choose = 0;
-            std::cout << "Select options:\n";
-            std::cout << "Any key - BACK\n";
-            std::cout << "1. TXT\n";
-            std::cout << "2. XML\n";
-            std::cin >> choose;
-
-            if (choose == 1) {
-                std::string filename;
-                std::cout << "Insert the filename: ";
-                std::cin >> filename;
-                lastFilename = filename;
-                lastSolution.readFromTXT(lastFilename);
-                std::cout << std::endl;
-            }
-            else if (choose == 2) {
-                std::string filename;
-                std::cout << "Insert the filename: ";
-                std::cin >> filename;
-                lastFilename = filename;
-                const char* filenameXML = filename.c_str();
-                lastSolution.readFromXML(filenameXML);
-                std::cout << std::endl;
-            }
-
+            std::string filename;
+            std::cout << "Insert the filename: ";
+            std::cin >> filename;
+            lastFilename = filename;
+            const char* filenameXML = filename.c_str();                lastSolution.readFromXML(filenameXML);
+            std::cout << std::endl;
         }
         break;
 
@@ -74,28 +57,16 @@ void Menu::start()
 
         case 4:
         {
-            /*TabuSearch tabu(lastSolution);
-            tabu.tabuSearch(stopTime);
-            lastSolution.minCost = tabu.minCost;
-            lastSolution.minPath = tabu.minPath;
-            lastSolution.bestTimeStamp = tabu.bestTimeStamp;
-            lastSolution.time = tabu.executionTime;
-            lastSolution.printSolution();
-            lastSolution.saveToFile(lastFilename);*/
-            std::cout << std::endl;
+            std::cout << "Insert the amount of starting population: ";
+            std::cin >> startPopulationAmount;
+            std::cout << "Insert the mutational factor: ";
+            std::cin >> crossoverFactor;
+            std::cout << "Insert the crossing factor: ";
+            std::cin >> mutationalFactor;
         }
         break;
 
         case 5:
-        {
-            std::cout << "Insert the a (cooling) factor: ";
-            std::cin >> a;
-            std::cout << "Insert amount of epoques: ";
-            std::cin >> epoque;
-        }
-        break;
-
-        case 6:
         {
             //SimulatedAnnealing simulatedAnnealing(lastSolution);
             //simulatedAnnealing.simulatedAnnealing(stopTime, a, epoque);
@@ -108,6 +79,19 @@ void Menu::start()
             //lastSolution.printSolution();
             //lastSolution.saveToFile(lastFilename);
             std::cout << std::endl;
+        }
+        break;
+
+        case 6:
+        {
+            GeneticAlgorithm geneticAlgorithm(lastSolution);
+            geneticAlgorithm.geneticAlgorithm(stopTime, startPopulationAmount, crossoverFactor, mutationalFactor, mutationMethod);
+            lastSolution.minCost = geneticAlgorithm.bestPopulation.populationCost;
+            lastSolution.minPath = geneticAlgorithm.bestPopulation.path;
+            lastSolution.bestTimeStamp = geneticAlgorithm.bestTimeStamp;
+            lastSolution.time = geneticAlgorithm.executionTime;
+            lastSolution.printSolution();
+            lastSolution.saveToFile(lastFilename);
         }
         break;
 

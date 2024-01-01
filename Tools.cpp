@@ -9,7 +9,6 @@ Tools::Tools() {
     minPath.resize(numberOfCities);
     minCost = INT_MAX;
     //minCostEnd = INT_MAX;
-    typeOfSolution = 0;
     bestTimeStamp = 0;
     time = 0;
 }
@@ -21,7 +20,6 @@ Tools::~Tools() {
     minPath.clear();
     minCost = 0;
     //minCostEnd = 0;
-    typeOfSolution = 0;
     bestTimeStamp = 0;
     time = 0;
 }
