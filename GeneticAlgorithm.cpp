@@ -5,7 +5,6 @@ GeneticAlgorithm::GeneticAlgorithm(Tools lastSolution) {
 	numberOfCities = lastSolution.numberOfCities;
 	// ustalenie domyœlnej pocz¹tkowej populacji
 	population bestPopulation;
-	bestPopulation.populationCost = INT_MAX;
 	matrix = lastSolution.matrix;
 	bestTimeStamp = 0;
 	executionTime = 0;
@@ -26,9 +25,12 @@ bool comparator(population& first, population& second) {
 }
 
 void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmount, double crossoverFactor, double mutationFactor, int mutationMethod) {
-	// zaludnienie pocz¹tkowych populacji
+	// nadpisanie najlepszej populacji
 	bestPopulation.populationCost = INT_MAX;
+
+	// zaludnienie pocz¹tkowych populacji
 	std::vector<population> populations = findRandomStartPopulation(startPopulationAmount);
+
 	// kiedy poszczególne rozwi¹zania zosta³y znalezione
 	std::vector<int> costs;
 	std::vector<long> times;
@@ -79,6 +81,9 @@ void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmou
 				if (mutationMethod == 1) {
 					swapMutation(firstChild);
 				}
+				else if (mutationMethod == 2) {
+					scrambleMutation(firstChild);
+				}
 			}
 
 			double secondRandForMutation = realNumberDraw(0.0, 1.0);
@@ -87,6 +92,9 @@ void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmou
 			if (secondRandForMutation < mutationFactor) {
 				if (mutationMethod == 1) {
 					swapMutation(secondChild);
+				}
+				else if (mutationMethod == 2) {
+					scrambleMutation(secondChild);
 				}
 			}
 
@@ -219,6 +227,8 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 
 	// do naprawy
 	while (newChild.path.size() < secondParent.path.size()){
+		// std::find jeœli nie znajdzie miasta w nowej œcie¿ce, to zwraca iterator na ostatni element tablicy wektorowej, czyli newChild.path.end()
+		// tak szukamy czy element jeszcze nie istnieje w tablicy wektorowej
 		if (std::find(newChild.path.begin(), newChild.path.end(), secondParent.path[secondParentIndex]) == newChild.path.end()) {
 			newChild.path.push_back(secondParent.path.at(secondParentIndex));
 		}
@@ -235,6 +245,18 @@ void GeneticAlgorithm::swapMutation(population& child) {
 	int secondRandPosition = intNumberDraw(0, numberOfCities - 1);
 
 	std::swap(child.path[firstRandPosition], child.path[secondRandPosition]);
+}
+
+// mutacja typu scramble
+void GeneticAlgorithm::scrambleMutation(population& child) {
+	int firstRandPosition = intNumberDraw(0, numberOfCities - 1);
+	int secondRandPosition = intNumberDraw(0, numberOfCities - 1);
+
+	if (firstRandPosition > secondRandPosition) {
+		std::swap(firstRandPosition, secondRandPosition);
+	}
+
+	std::random_shuffle(child.path.begin() + firstRandPosition, child.path.begin() + secondRandPosition + 1);
 }
 
 

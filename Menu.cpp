@@ -8,7 +8,7 @@ void Menu::start()
     std::string results;
     double stopTime = 60 * 1000000;
     int startPopulationAmount = 1000;
-    int mutationMethod = 1;
+    int mutationMethod = 2;
     // factors
     double crossoverFactor = 0.8;
     double mutationalFactor = 0.1;
@@ -33,7 +33,8 @@ void Menu::start()
             std::cout << "Insert the filename: ";
             std::cin >> filename;
             lastFilename = filename;
-            const char* filenameXML = filename.c_str();                lastSolution.readFromXML(filenameXML);
+            const char* filenameXML = filename.c_str();               
+            lastSolution.readFromXML(filenameXML);
             std::cout << std::endl;
         }
         break;
@@ -68,16 +69,10 @@ void Menu::start()
 
         case 5:
         {
-            //SimulatedAnnealing simulatedAnnealing(lastSolution);
-            //simulatedAnnealing.simulatedAnnealing(stopTime, a, epoque);
-            //lastSolution.minCost = simulatedAnnealing.minCost;
-            //lastSolution.minPath = simulatedAnnealing.minPath;
-            ///*lastSolution.minCostEnd = simulatedAnnealing.minCostEnd;
-            //lastSolution.minPathEnd = simulatedAnnealing.minPathEnd;*/
-            //lastSolution.bestTimeStamp = simulatedAnnealing.bestTimeStamp;
-            //lastSolution.time = simulatedAnnealing.executionTime;
-            //lastSolution.printSolution();
-            //lastSolution.saveToFile(lastFilename);
+            std::cout << "Choose mutation method:\n";
+            std::cout << "1. Swap Mutation\n";
+            std::cout << "2. Scramble Mutation\n";
+            std::cin >> mutationMethod;
             std::cout << std::endl;
         }
         break;

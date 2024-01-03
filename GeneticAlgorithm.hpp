@@ -28,4 +28,5 @@ public:
 	int intNumberDraw(int rangeLow, int rangeHigh);
 	population orderCrossover(const population& firstParent, const population& secondParent);
 	void swapMutation(population& child);
+	void scrambleMutation(population& child);
 };
