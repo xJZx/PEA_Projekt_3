@@ -106,10 +106,18 @@ void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmou
 
 			if (comparator(firstChild, bestPopulation)) {
 				bestPopulation = firstChild;
+				time.check();
+				bestTimeStamp = time.totalTime();
+				times.push_back(bestTimeStamp);
+				costs.push_back(bestPopulation.populationCost);
 			}
 
 			if (comparator(secondChild, bestPopulation)) {
 				bestPopulation = secondChild;
+				time.check();
+				bestTimeStamp = time.totalTime();
+				times.push_back(bestTimeStamp);
+				costs.push_back(bestPopulation.populationCost);
 			}
 
 			time.check();
@@ -122,7 +130,14 @@ void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmou
 		executionTime = time.totalTime();
 	}
 
-	std::sort(populations.begin(), populations.end(), comparator);
+	//std::sort(populations.begin(), populations.end(), comparator);
+
+	for (int i = 0; i < costs.size(); i++) {
+		std::cout << costs[i] << "\n";
+	}
+	for (int i = 0; i < times.size(); i++) {
+		std::cout << times[i] << "\n";
+	}
 }
 
 // znalezienie pocz¹tkowej populacji
@@ -186,8 +201,8 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 
 	// wybór rodziców
 	std::vector<population> selectedParents;
-	double currentSum = populations[0].populationCost;
 	int parentIndex = 0;
+	double currentSum = populations[parentIndex].populationCost;
 
 	for (double pointer : pointers) {
 		// suma musi byæ mniejsza od wskaŸnika, aby by³ on optymalny
@@ -205,8 +220,8 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 // order crossover
 population GeneticAlgorithm::orderCrossover(const population& firstParent, const population& secondParent) {
 	population newChild;
-	//newChild.path.resize(numberOfCities);
 	newChild.path.clear();
+	//newChild.path.resize(numberOfCities);
 
 	// wygenerowanie przedzia³u, z którego bêdzie kopiowany kod gen.
 	int startPosition = intNumberDraw(0, numberOfCities - 1);
@@ -218,6 +233,7 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 	
 	// skopiowanie materia³u gen. miêdzy konkretnymi pozycjami
 	for (int i = startPosition; i <= endPosition; i++) {
+		//newChild.path.insert(newChild.path.begin() + i, firstParent.path.at(i));
 		newChild.path.push_back(firstParent.path.at(i));
 	}
 
@@ -225,7 +241,6 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 	int index = (endPosition + 1) % numberOfCities;
 	int secondParentIndex = index;
 
-	// do naprawy
 	while (newChild.path.size() < secondParent.path.size()){
 		// std::find jeœli nie znajdzie miasta w nowej œcie¿ce, to zwraca iterator na ostatni element tablicy wektorowej, czyli newChild.path.end()
 		// tak szukamy czy element jeszcze nie istnieje w tablicy wektorowej
@@ -236,6 +251,10 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 		secondParentIndex = (secondParentIndex + 1) % numberOfCities;
 	}
 
+	//for (int i = 0; i < newChild.path.size(); i++) {
+	//	std::cout << newChild.path[i] << "\n";
+	//}
+	
 	return newChild;
 }
 
