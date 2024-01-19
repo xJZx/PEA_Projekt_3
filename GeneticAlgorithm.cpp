@@ -223,7 +223,7 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 population GeneticAlgorithm::orderCrossover(const population& firstParent, const population& secondParent) {
 	population newChild;
 	newChild.path.clear();
-	//newChild.path.resize(numberOfCities);
+	newChild.path.resize(numberOfCities, -1);
 
 	// wygenerowanie przedzia³u, z którego bêdzie kopiowany kod gen.
 	int startPosition = intNumberDraw(0, numberOfCities - 1);
@@ -239,6 +239,11 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 		newChild.path.push_back(firstParent.path.at(i));
 	}
 
+	// test
+	/*for (int i = startPosition; i <= endPosition; ++i) {
+		newChild.path[i] = firstParent.path[i];
+	}*/
+
 	// zape³nienie pozosta³ych miejsc
 	int secondParentIndex = (endPosition + 1) % numberOfCities;
 
@@ -251,6 +256,18 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 		secondParentIndex = (secondParentIndex + 1) % numberOfCities;
 	}
 
+	// test
+	/*while (std::find(newChild.path.begin(), newChild.path.end(), -1) != newChild.path.end()) {
+		if (std::find(newChild.path.begin(), newChild.path.end(), secondParent.path[secondParentIndex]) == newChild.path.end()) {
+			for (int i = 0; i < numberOfCities; ++i) {
+				if (newChild.path[i] == -1) {
+					newChild.path[i] = secondParent.path[secondParentIndex];
+					break;
+				}
+			}
+		}
+		secondParentIndex = (secondParentIndex + 1) % numberOfCities;
+	}*/
 
 	// weryfikacja
 	/*for (int i = 0; i < newChild.path.size(); i++) {
