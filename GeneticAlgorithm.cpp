@@ -223,7 +223,7 @@ std::vector<population> GeneticAlgorithm::stochasticUniversalSampling(const std:
 population GeneticAlgorithm::orderCrossover(const population& firstParent, const population& secondParent) {
 	population newChild;
 	newChild.path.clear();
-	newChild.path.resize(numberOfCities, -1);
+	//newChild.path.resize(numberOfCities, -1);
 
 	// wygenerowanie przedzia³u, z którego bêdzie kopiowany kod gen.
 	int startPosition = intNumberDraw(0, numberOfCities - 1);
