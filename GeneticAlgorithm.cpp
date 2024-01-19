@@ -47,7 +47,7 @@ void GeneticAlgorithm::geneticAlgorithm(double stopTime, int startPopulationAmou
 		std::sort(populations.begin(), populations.end(), comparator);
 
 		// czynnik o ile mniej bierzemy z g³ównej ju¿ posortowanej populacji ca³kowitej
-		int shorteningFactor = 10;
+		int shorteningFactor = 10; // %
 		for (int i = 0; i < populations.size() / shorteningFactor; i++) {
 			evolvedPopulation.push_back(populations[i]);
 		}
@@ -240,8 +240,7 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 	}
 
 	// zape³nienie pozosta³ych miejsc
-	int index = (endPosition + 1) % numberOfCities;
-	int secondParentIndex = index;
+	int secondParentIndex = (endPosition + 1) % numberOfCities;
 
 	while (newChild.path.size() < secondParent.path.size()){
 		// std::find jeœli nie znajdzie miasta w nowej œcie¿ce, to zwraca iterator na ostatni element tablicy wektorowej, czyli newChild.path.end()
@@ -249,13 +248,23 @@ population GeneticAlgorithm::orderCrossover(const population& firstParent, const
 		if (std::find(newChild.path.begin(), newChild.path.end(), secondParent.path[secondParentIndex]) == newChild.path.end()) {
 			newChild.path.push_back(secondParent.path.at(secondParentIndex));
 		}
-		index = (index + 1) % numberOfCities;
 		secondParentIndex = (secondParentIndex + 1) % numberOfCities;
 	}
 
-	//for (int i = 0; i < newChild.path.size(); i++) {
-	//	std::cout << newChild.path[i] << "\n";
-	//}
+
+	// weryfikacja
+	/*for (int i = 0; i < newChild.path.size(); i++) {
+		std::cout << firstParent.path[i] << " ";
+	}
+	std::cout << "\n";
+	for (int i = 0; i < newChild.path.size(); i++) {
+		std::cout << secondParent.path[i] << " ";
+	}
+	std::cout << "\n";
+	for (int i = 0; i < newChild.path.size(); i++) {
+		std::cout << newChild.path[i] << " ";
+	}
+	std::cout << "\n";*/
 	
 	return newChild;
 }
